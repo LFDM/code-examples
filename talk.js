@@ -97,12 +97,16 @@ scope.$on('message:deleteRequest', function(event, message) {
 
 // Smart and Dumb
 
-// MessageHandler
+// MessageItem
 {
+    bindToController: {
+        message: "="
+    },
     controller: function(MessageFilterService, MessageDeleteService) {
         var vm = this;
-        vm.filterMessage = function() {
-            MessageFilterService.filterMessage(vm.message);
+
+        vm.filterMessages = function(property) {
+            MessageFilterService.filterMessages(property);
         }
 
         vm.deleteMessage = function() {
@@ -111,12 +115,31 @@ scope.$on('message:deleteRequest', function(event, message) {
     }
 }
 
-// MessageFilter
+
+
+// MessageFilterPanel
 {
     controller: function(MessageFilterService) {
         var vm = this;
         vm.filterMessages = MessageFilterService.filterMessages;
-        vm.filter = MessageFilterService.filter;
+        vm.activeFilter = MessageFilterService.activeFilter;
     }
 }
 
+// MessageDeleteAction
+{
+    this.deleteMessage = function (message) {
+        // Side effects
+        MessageResource
+            .delete(message)
+            .then(MessageStore.delete);
+    }
+}
+
+// MessageStore
+{
+    this.deleteMessage = function (message) {
+        delete messageMap[message.id];
+        triggerEvent('delete', message);
+    }
+}

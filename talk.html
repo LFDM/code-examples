@@ -69,4 +69,20 @@
 
 <!--Smart and Dumb-->
 
-<message-handler message="message"></message-handler>
+<!-- message-list-tpl.html -->
+<ul>
+    <li ng-repeat="message in messages">
+        <message-item message="message"></message-item>
+    </li>
+</ul>
+
+<!-- message-item-tpl.html -->
+<!-- message-item-tpl.html -->
+<div>
+    <message-content message="vm.message"></message-content>
+    <delete-button on-delete="vm.deleteMessage()"></delete-button>
+    <property-filter
+            property="vm.message.autor"
+            on-filter="vm.filterMessages(property)">
+    </property-filter>
+</div>
