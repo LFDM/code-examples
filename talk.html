@@ -1,0 +1,72 @@
+<!--Scope soup-->
+
+<div ng-controller="MessagesController">
+    <message-filter></message-filter>
+    <ul>
+        <li ng-repeat="message in messages">
+            <message-item></message-item>
+        </li>
+    </ul>
+</div>
+
+<!--Encapsulation-->
+
+<div ng-controller="MessagesController">
+    <message-list messages="messages"></message-list>
+</div>
+
+<!--Variant 1-->
+
+<ul>
+    <li ng-repeat="message in messages">
+        <message-item message="message" on-delete="deleteMessage(message)">
+        <message-item>
+    </li>
+</ul>
+
+<!--Variant 2-->
+
+<ul>
+    <li ng-repeat="message in messages">
+        <message-item message="message" messages="messages">
+        <message-item>
+    </li>
+</ul>
+
+<!--Message Item-->
+
+<div>
+    <div class="message-title">{{ message.title }}</div>
+    <p class="message-body">{{ message.body }}</p>
+    <delete-button on-click="deleteMessage(message)"></delete-button>
+</div>
+
+<!--Message Filter-->
+<message-filter state="state"></message-filter>
+
+
+<!--Component-driven-->
+
+<div>
+    <message-filter filter="filter" on-filter="filterMessages()"></message-filter>
+    <message-list
+        messages="filteredMessages"
+        on-delete="deleteMessage(message)"
+        on-filter="filterMessage(message, property)">
+    </message-list>
+</div>
+
+<ul>
+    <li ng-repeat="message in messages">
+        <message-item
+            message="message"
+            on-delete="deleteMessage(message)"
+            on-filter="filterMessage(message, property)">
+        </message-item>
+    </li>
+</ul>
+
+
+<!--Smart and Dumb-->
+
+<message-handler message="message"></message-handler>
